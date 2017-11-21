@@ -68,7 +68,7 @@ class Temas{
 
                 	$info .= '<tr id="'.$row[0].'">
                         <td class="col-2" style="padding-left: 2%; font-size: 12px;">
-                        <a class=" tema collapse-toggle button">'.$tema.'</td>';
+                        <a class="tema collapse-toggle button" data-tema="'.$tema.'">'.$tema.'</td>';
                     $info .= '<td class="col-2" style="padding-left: 2%; font-size: 12px;">'.$autor.'</td>';
                     $info .= '<td class="col-2" style="padding-left: 2%; font-size: 12px;">'.$fecha.'</td>';
                 	}
@@ -88,14 +88,20 @@ class Temas{
 
     	// ----------- Funcion para consultar un tema en especifico.
     	public function consultarRespuestas() {
-    		$existen = false;
+
     		$this->conn = new Conexion('../../php/datosServer.php');
 			$this->conn = $this->conn->conectar();
 			
 				   $sql = "CALL consultarRespuestasTema(".$_POST['dato'].")";//llamar al procedure que regresara los comentarios del tema seleccionado 
 
 				   //estructura para mostrar el tema o info general del tema al cual despues se concatenara las respuestas
-					$info = '';
+				   //Se utiliza la variable btnEliminar del metodo consultarInfo para guardar el tema y asi no crear otra function
+					$info = '<div class="animated fadeInDown BtnShadow" id="resultado-respuestas-tema">
+								<span class="label warning" style="margin: 8px;"><i class="fa fa-list-alt fa-lg"></i> Respuestas a tema</span><button id="back-forum" style="float: right;" class="button oscuro">Volver</button><br><div style="clear:both; margin-bottom:10px;"></div>
+							<div class="titleTable" style="padding: 8px;">
+								<p style="margin-bottom: 0;">'.strtoupper($_POST['btnEliminar']).'</p>
+							</div>
+							<div style="padding: 8px;">';
 	
 			
 			$result = $this->conn->query($sql);
@@ -104,16 +110,28 @@ class Temas{
                 	/*
                 	Escribir todo el codigo de como quieres mostrar las respuestas del tema	
                 	*/	
-                	$info .= "Respuesta: ".$row[4];
+                	$info .= '<div class="row gutters" style="margin-bottom:10px;"><div class="col col-4">
+                				<p style="margin-bottom: 0;">'.$row[2].' </p><p style="line-height: 0.8"><small>'.$row[3].'</small></p>
+                			</div>';
 
-                $existen = true;
+                	$info .= '<div class="col col-8 forum-response">
+                				<p style="margin-bottom: 0;">'.$row[4].'</p></div></div>';
+
             }
+            // if($existen == true) {
+            // 		echo $info;
+            // 	}else echo -1;
+    		}else{
+
+            	$info .= '<div class="row" style="margin-bottom:10px;"><div class="col col-12">
+                				<p style="margin-bottom: 0;">Sin respuestas aún.</p>
+                			</div>';
+            }
+                $info .= "</div>";
+
+                echo $info;
             
-            if($existen == true) {
-            		echo $info;
-            	}else echo -1;
             $this->conn->close();
-    		}
     	}
     		
     				    	// ----------- Funcion para consultar avisos admin.

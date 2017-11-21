@@ -14,14 +14,19 @@ $(document).ready(function () {
 
 	$("div#ContenedorPrincipal").on('click', 'a.tema', function (e) {
 		e.preventDefault();
-		var dato = $(this).closest('tr').attr('id');
+		var dato = $(this).closest('tr').attr('id'),
+			tema = $(this).attr('data-tema');
 
 		// alert(dato);
 
 		var subop = "ver-tema";
 		$.cookie('subop', subop, {path: '/'});
 		//llamamos la funcion que regresara los comentarios del tema
-		consultarInfo(dato);
+		consultarInfo(dato, tema);
+	});
+
+	$("div#ContenedorPrincipal").on('click', 'button#back-forum', function () {
+		$('li#vert').click();
 	});
 	
 	$('div#my-collapse').on('click', 'li', function () {
