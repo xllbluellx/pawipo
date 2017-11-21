@@ -90,6 +90,9 @@ $(document).ready(function () {
 			case 'evaluacion-impr':
 			//window.open('../php/grafico_reporte.php', '_blank');
 			$('div#ContenedorPrincipal').load('../reportes/grafico_reporte.php');
+			break;		
+			case 'foro-vert':
+				consultarInfo();
 			break;			
 			default:
 			cargarOpcion();

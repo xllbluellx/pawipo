@@ -2,17 +2,31 @@ $(document).ready(function () {
 	$('.sidebar').sticky('.menuDeta');
 	// ------- Efectos de seleccion de elemento en menu izquierdo
 	$('div#my-collapse').on('click', 'a', function () {
-		$.cookie('op', $(this).attr('id'), {path: '/'});	
+		//setear opcion principal en la cookie
+		$.cookie('op', $(this).attr('id'), {path: '/'});			
 	});
 	
-	$('div#dropdown-fixed').on('click', 'a#change-pass, a#change-pass-coord', function (e) {
+	$('div#dropdown-fixed').on('click', 'a#change-pass', function (e) {
 		e.preventDefault();
-		$.cookie('subop', $(this).attr('id'), {path: '/'});
+		
 		$('div#ContenedorPrincipal').load('menu/change-pass.php');
+	});
+
+	$("div#ContenedorPrincipal").on('click', 'a.tema', function (e) {
+		e.preventDefault();
+		var dato = $(this).closest('tr').attr('id');
+
+		alert(dato);
+
+		var subop = "ver-tema";
+		$.cookie('subop', subop, {path: '/'});
+		//llamamos la funcion que regresara los comentarios del tema
+		consultarDatos(dato);
 	});
 	
 	$('div#my-collapse').on('click', 'li', function () {
 		var subop = $(this).attr('id');
+		//setear opcion secundaria, proviene del submenu
 		$.cookie('subop', subop, {path: '/'});
 		$('div#my-collapse').find('li.seleccion').removeClass();
 		$('div#my-collapse').find('span#seleccion').remove();
@@ -43,6 +57,9 @@ $(document).ready(function () {
 				consultarInfo();
 			break;
 			case 'avisos-vera':
+				consultarInfo();
+			break;
+			case 'foro-vert':
 				consultarInfo();
 			break;
 			case 'catalogos-imag':

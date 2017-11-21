@@ -99,6 +99,9 @@ $(document).ready(function () {
 			case 'evaluaciones-regi':
 			consultarMaterias();
 			break;
+			case 'foro-vert':
+				consultarInfo();
+			break;			
 			case 'evaluaciones-impr':
 			consultarAnexo('Anexo_Evaluacion');
 			break;			

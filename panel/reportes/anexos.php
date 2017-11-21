@@ -135,6 +135,7 @@ $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 
 // Close and output PDF document
 // This method has several options, check the source code documentation for more information.
+ob_end_clean();     //Línea agregada para que no tuviera problemas con al momento de generar el PDF
 $pdf->Output(strtoupper($_COOKIE['anexo'].'_'.$_SESSION['alumno']).'.pdf', 'I');
 
 //============================================================+

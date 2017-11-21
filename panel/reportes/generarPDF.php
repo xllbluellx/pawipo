@@ -1,4 +1,5 @@
 <?php
+
 include('../php/conexion.php');
 class generarPDF{
 	private $conn;
@@ -38,6 +39,25 @@ class generarPDF{
                 
                 $encontrado = true;
             }
+
+            $result2 = $this->conn->query($sql);
+            if ($result2->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                	$datos = 'Profesor: '.$row['profe'].'<br>Carrera: '.$row['carrera'].'<br>Grupo: '.$row['idGrupo'].'<hr><br>';
+						$info .= '<tr><td style="text-align: center; color: #400101; border: 1px solid lightgray;">'.$row['idAlumno'].'</td>'.
+									'<td colspan="2" style=" border: 1px solid lightgray;">'.$row['alum'].'</td>';
+						if(intval($row['activo']) == 1) {
+							$info .= '<td   style="border: 1px solid lightgray;"><span >SI</span></td>';
+							}
+						else {
+							$info .= '<td  style="border: 1px solid lightgray;"><span>NO</span></td>';
+							}
+						 $info .= '<td style="color: #400101; border: 1px solid lightgray;"></td><td  style="color: #400101; border: 1px solid lightgray;"></td></tr>';
+                }
+                
+                $encontrado = true;
+            }
+
 				$this->conn->close();
             $info .= '</tbody></table></div>';
             return $datos.$info;
@@ -107,6 +127,10 @@ class generarPDF{
 							text-align: center;	
 							border: 1px solid #fff;
 						}
+
+						.sinborde: focus, input:focus {
+							 outline: none;
+						}
 					</style>';
 
 		   	$sql = 'CALL generarPDF("'.$dato.'", 0);';
@@ -116,15 +140,21 @@ class generarPDF{
 							<tr class="subtitle"><td colspan="8">Instituto Tecnológico de Morelia</td></tr>';
     
 		  $cont = 1;
+		  
         $result = $this->conn->query($sql);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
+                	$grupal='<input type="text" class="sinborde" name="grupal'.$cont.'" value="" size="19" maxlength="30" />';
+                	$individual='<input type="text" class="sinborde" name="individual'.$cont.'" value="" size="19" maxlength="30" />';
+                	$estcanalizados='<input type="text" class="sinborde" name="estudiantes'.$cont.'" value="" size="19" maxlength="30" />';
+                	$observaciones='<input type="text" class="sinborde" name="observaciones'.$cont.'" value="" size="19" maxlength="30" />';
+                	$asistencia='<input type="text" class="sinborde" name="asistencia'.$cont.'" value="" size="19" maxlength="30" />';
                 	$d1 = '<tr class="subtitle"><td colspan="6">Nombre del Tutor: '.$row['profe'].'</td><td colspan="2">Fecha: '.date("d/m/Y").'</td></tr>';
-                	$d2 = '<tr class="subtitle"><td colspan="3">Programa Educativo: '.$row['carrera'].'</td><td colspan="3">Grupo: '.$row['idGrupo'].'</td><td colspan="2">Hora: </td></tr>';
+                	$d2 = '<tr class="subtitle"><td colspan="3">Programa Educativo: '.$row['carrera'].'</td><td colspan="3">Grupo: '.$row['idGrupo'].'</td><td colspan="2">Hora: '.date("H:i:s").'</td></tr>';
                 	$d3 = '<tr class="title"><td rowspan="2" width="3%"></td><td rowspan="2" width="7%"><br /><br /># Control</td><td rowspan="2" width="27.5%"><br /><br />Lista de estudiantes</td><td colspan="2">Estudiantes atendidos en el semestre</td><td rowspan="2">Estudiantes canalizados en el semestre</td><td colspan="2">Área Canalizada</td></tr>
                 			<tr class="title"><td>Tutoría grupal</td><td>Tutoría individual</td><td>Observaciones</td><td>% Asistencia</td></tr>';
                 	
-						$info .= '<tr><td>'.$cont.'</td><td>'.$row['idAlumno'].'</td><td>'.strtoupper($row['alum']).'</td><td></td><td></td><td></td><td></td><td></td></tr>';
+						$info .= '<tr><td>'.$cont.'</td><td>'.$row['idAlumno'].'</td><td>'.strtoupper($row['alum']).'</td><td>'.$grupal.'</td><td>'.$individual.'</td><td>'.$estcanalizados.'</td><td>'.$observaciones.'</td><td>'.$asistencia.'</td></tr>';
 						$cont++;
 						}
             }
@@ -137,11 +167,12 @@ class generarPDF{
 				<li>Este reporte deberá ser llenado por el Tutor</li>
 				<li>Deberá ser entregada al Coordinador de Tutoría del Departamento Académico con copia para el  Tutor</li>
 				</ul></td></tr>
-				<tr><td colspan="8">Observaciones:<br /><br /><br /><br /></td></tr>';
+				<tr><td colspan="8"> Observaciones: <br><textarea rows="5" cols="151" name="comment" form="usrform">
+						</textarea><br /><br /><br /><br /></td></tr>';
 		
-				$firmas = '<br /><br /><table class="noBor"><tr><td>Fecha de entrega de este reporte:_____________________________________</td><td></td></tr>
-				<tr><td><br /><br />____________________________________________<br />Nombre y firma del Coordinador de Tutoría del Departamento Académico</td><td><br /><br />____________________________________________<br />Nombre y firma del Jefe d Departamento Académico</td></tr>				
-				<tr><td colspan="2"><br /><br />____________________________________________<br />Nombre y firma del tutor</td></tr>
+				$firmas = '<br /><br /><table class="noBor"><tr><td>Fecha de entrega de este reporte: <input type="text" style="text-decoration: underline; " name="fechareporte" value="" size="30" maxlength="30" /></td><td></td></tr>
+				<tr><td><br /><br /><br /><br /><br />_____________________________________________________<br /><input type="text" class="sinborde" name="firmacoordinador" value="Nombre y firma del Coordinador de Tutoría del Departamento Académico" size="50" maxlength="70" /></td><td><br /><br /><br /><br /><br />____________________________________________<br /><input type="text" class="sinborde" name="firmajefe" value="Nombre y firma del Jefe de Departamento Académico" size="50" maxlength="70" /></td></tr>				
+				<tr><td colspan="2"><br /><br /><br /><br />____________________________________________<br /><input type="text" class="sinborde" name="firmatutor" value="Nombre y firma del tutor" size="50" maxlength="70" /></td></tr>
 				</table>';				
 				
             return $css.$d0.$d1.$d2.$d3.$info.$d4.'</table>'.$firmas;

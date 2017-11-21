@@ -1,5 +1,6 @@
 <?php
 // Include the main TCPDF library (search for installation path).
+ob_start();
 require_once('tcpdf.php');
 require_once('generarPDF.php');
 
@@ -117,6 +118,7 @@ $pdf->writeHTML($html, true, false, true, false, '');
 
 // Close and output PDF document
 // This method has several options, check the source code documentation for more information.
+ob_end_clean();		//Línea agregada para que no tuviera problemas con al momento de generar el PDF
 $pdf->Output(strtoupper('reporte_'.$_COOKIE['info']).'.pdf', 'I');
 
 //============================================================+

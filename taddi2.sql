@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-11-2017 a las 23:58:14
+-- Tiempo de generación: 21-11-2017 a las 06:20:01
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 5.6.30
 
@@ -157,6 +157,9 @@ SELECT * FROM avisos ORDER BY avisos.fecha;
 SELECT * FROM avisos WHERE avisos.aquien LIKE '%Tutor,%' ORDER BY avisos.fecha DESC;
     END IF;
 END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `consultarRespuestasTema` (IN `dato1` INT(10))  NO SQL
+SELECT * FROM respuestas_foro where id_tema = dato1 ORDER BY fecha DESC$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `consultarTemaForo` ()  NO SQL
 SELECT * FROM temas_foro ORDER BY fecha DESC$$
@@ -3300,7 +3303,8 @@ CREATE TABLE `temas_foro` (
 --
 
 INSERT INTO `temas_foro` (`id_tema`, `nombre_tema`, `correo_autor`, `fecha`) VALUES
-(1, 'sistemas', 'daniel@hotmail.com', '2017-11-08');
+(1, 'sistemas', 'daniel@hotmail.com', '2017-11-08'),
+(2, 'Sistemas 2', 'daniel_a@hotmail.com', '2017-11-15');
 
 -- --------------------------------------------------------
 
@@ -3479,7 +3483,7 @@ ALTER TABLE `respuestas_foro`
 -- AUTO_INCREMENT de la tabla `temas_foro`
 --
 ALTER TABLE `temas_foro`
-  MODIFY `id_tema` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_tema` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `visitas`
 --

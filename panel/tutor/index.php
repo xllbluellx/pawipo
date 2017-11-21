@@ -26,7 +26,9 @@
 		    		$img->imgCual('../../img/', '%img-sep-%');
 		    	?>
     </div>
-    <div class="col"><div class="headerTitle">Tutoría Académica Digital e Institucional</div><hr></div>
+    <div class="col"><div class="headerTitle">Tutoría Académica Digital e Institucional</div>
+    <hr>
+	</div>
     <div class="col">
     			<?php 
 		    		$img->imgCual('../../img/', '%img-tec-%');
@@ -118,6 +120,15 @@
 			<li id="vera-tuto">Ver avisos</li>
     	</ul>	
 	 </div>
+
+	 	 	 <a id="foro" href="#box-11" class="collapse-toggle button oscuro width-100"><i></i> Foro</a>
+	 <div class="collapse-box" id="box-11">
+	 	<ul id="foro">
+			<li id="nuevt">Nuevo tema</li>
+			<li id="vert">Ver tema</li>
+    	</ul>	
+	 </div>
+	 
 	 <hr>
 			<div class="row" id="opciones">
 				<div class="col" id="correo">
