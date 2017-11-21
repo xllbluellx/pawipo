@@ -17,6 +17,11 @@ $(document).ready(function () {
 		var dato = $(this).closest('tr').attr('id');
 
 		alert(dato);
+
+		var subop = "ver-tema";
+		$.cookie('subop', subop, {path: '/'});
+		//llamamos la funcion que regresara los comentarios del tema
+		consultarDatos(dato);
 	});
 	
 	$('div#my-collapse').on('click', 'li', function () {

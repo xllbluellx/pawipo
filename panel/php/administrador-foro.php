@@ -39,7 +39,7 @@ class Temas{
 		}
 		}
 		
-		    	// ----------- Funcion para consultar avisos admin.
+		    	// ----------- Funcion para consultar la lista de temas.
     	public function consultarTemaForo() {
     		$existen = false;
     		$this->conn = new Conexion('../../php/datosServer.php');
@@ -77,6 +77,35 @@ class Temas{
                 	$info .= '
 							<script type="text/javascript" src="../js/table-filter.js"></script>                	
                 	';
+                $existen = true;
+            }
+            
+            if($existen == true) {
+            		echo $info;
+            	}else echo -1;
+            $this->conn->close();
+    		}
+
+    	// ----------- Funcion para consultar un tema en especifico.
+    	public function consultarTema() {
+    		$existen = false;
+    		$this->conn = new Conexion('../../php/datosServer.php');
+			$this->conn = $this->conn->conectar();
+			
+				   $sql = "CALL   ('".$_POST['dato1']."')";//llamar al procedure que regresara los comentarios del tema seleccionado 
+
+				   //estructura para mostrar el tema o info general del tema al cual despues se concatenara las respuestas
+					$info = '';
+	
+			
+			$result = $this->conn->query($sql);
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_array(MYSQLI_NUM)) {               	
+                	/*
+                	Escribir todo el codigo de como quieres mostrar las respuestas del tema	
+                	*/	
+                	$info .= "";
+                	
                 $existen = true;
             }
             
@@ -145,6 +174,9 @@ class Temas{
         break;
         case 'vert':
         		$datos->consultarTemaForo();
+        break;
+        case 'ver-tema':
+        		$datos->consultarTema();
         break;
     }
 }
