@@ -14,7 +14,7 @@ $(document).ready(function () {
 
 	$("div#ContenedorPrincipal").on('click', 'a.tema', function (e) {
 		e.preventDefault();
-		var dato = $(this).closest('td').attr('id');
+		var dato = $(this).closest('tr').attr('id');
 
 		alert(dato);
 	});
