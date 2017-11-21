@@ -435,3 +435,23 @@ background-image: linear-gradient(to bottom, #F7F7F7 0%, #E6ECFF 100%);
 	right:-20px;
 	top:7px;
 }
+/*************** Inicia Foro ***************/
+.forum-response {
+
+	background: #f8f8f8;
+	box-shadow: 3px 3px 3px rgba(150, 150, 150, 0.75);
+	position: relative;
+	border-radius: 4px;
+}
+
+.forum-response:before {
+	content: "";
+    position: absolute;
+    top: 15px;                         
+    margin-top: -15px;              
+    left:-14px;
+    border: solid 8px transparent;
+    border-right-color: #f8f8f8;
+    border-top-color: #f8f8f8;
+    z-index: 1;
+}

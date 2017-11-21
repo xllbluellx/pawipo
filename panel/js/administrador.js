@@ -14,14 +14,19 @@ $(document).ready(function () {
 
 	$("div#ContenedorPrincipal").on('click', 'a.tema', function (e) {
 		e.preventDefault();
-		var dato = $(this).closest('tr').attr('id');
+		var dato = $(this).closest('tr').attr('id'),
+			tema = $(this).attr('data-tema');
 
-		alert(dato);
+		// alert(dato);
 
 		var subop = "ver-tema";
 		$.cookie('subop', subop, {path: '/'});
 		//llamamos la funcion que regresara los comentarios del tema
-		consultarDatos(dato);
+		consultarInfo(dato, tema);
+	});
+
+	$("div#ContenedorPrincipal").on('click', 'button#back-forum', function () {
+		$('li#vert').click();
 	});
 	
 	$('div#my-collapse').on('click', 'li', function () {
@@ -332,6 +337,7 @@ $(document).ready(function () {
                 type: 'POST',
 					 async: false,
                 success: function (infoRegreso) {
+                	// alert(infoRegreso);
                 	switch (parseInt(infoRegreso)) {
                 		case -1:
 							$('div#ContenedorPrincipal div#tablas').html('<div class="alert error animated fadeInDown"><i class="fa fa-warning fa-2x"></i> <b>No se han encontrado coincidencias, intenta nuevamente.</b></div>');
