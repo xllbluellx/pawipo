@@ -66,9 +66,9 @@ class Temas{
                     $tema =  $row[1];
                     $fecha = $row[3];                	
 
-                	$info .= '<tr>
+                	$info .= '<tr id="'.$row[0].'">
                         <td class="col-2" style="padding-left: 2%; font-size: 12px;">
-                        <a data-id="'.$row[0].'" class=" tema collapse-toggle button">'.$tema.'</td>';
+                        <a class=" tema collapse-toggle button">'.$tema.'</td>';
                     $info .= '<td class="col-2" style="padding-left: 2%; font-size: 12px;">'.$autor.'</td>';
                     $info .= '<td class="col-2" style="padding-left: 2%; font-size: 12px;">'.$fecha.'</td>';
                 	}

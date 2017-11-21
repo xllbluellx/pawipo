@@ -2,6 +2,7 @@ $(document).ready(function () {
 	$('.sidebar').sticky('.menuDeta');
 	// ------- Efectos de seleccion de elemento en menu izquierdo
 	$('div#my-collapse').on('click', 'a', function () {
+		//setear opcion principal en la cookie
 		$.cookie('op', $(this).attr('id'), {path: '/'});			
 	});
 	
@@ -11,15 +12,16 @@ $(document).ready(function () {
 		$('div#ContenedorPrincipal').load('menu/change-pass.php');
 	});
 
-	$(".tema").on('click', 'a#tema', function (e) {
+	$("div#ContenedorPrincipal").on('click', 'a.tema', function (e) {
 		e.preventDefault();
-		$.cookie('tema', $(this).attr('data-id'), {path: '/'});
-		var id = $(this).attr('data-id');
-		alert(id);
+		var dato = $(this).closest('td').attr('id');
+
+		alert(dato);
 	});
 	
 	$('div#my-collapse').on('click', 'li', function () {
 		var subop = $(this).attr('id');
+		//setear opcion secundaria, proviene del submenu
 		$.cookie('subop', subop, {path: '/'});
 		$('div#my-collapse').find('li.seleccion').removeClass();
 		$('div#my-collapse').find('span#seleccion').remove();
