@@ -87,12 +87,12 @@ class Temas{
     		}
 
     	// ----------- Funcion para consultar un tema en especifico.
-    	public function consultarTema() {
+    	public function consultarRespuestas() {
     		$existen = false;
     		$this->conn = new Conexion('../../php/datosServer.php');
 			$this->conn = $this->conn->conectar();
 			
-				   $sql = "CALL   ('".$_POST['dato1']."')";//llamar al procedure que regresara los comentarios del tema seleccionado 
+				   $sql = "CALL consultarRespuestasTema(".$_POST['dato'].")";//llamar al procedure que regresara los comentarios del tema seleccionado 
 
 				   //estructura para mostrar el tema o info general del tema al cual despues se concatenara las respuestas
 					$info = '';
@@ -104,8 +104,8 @@ class Temas{
                 	/*
                 	Escribir todo el codigo de como quieres mostrar las respuestas del tema	
                 	*/	
-                	$info .= "";
-                	
+                	$info .= "Respuesta: ".$row[4];
+
                 $existen = true;
             }
             
@@ -114,6 +114,7 @@ class Temas{
             	}else echo -1;
             $this->conn->close();
     		}
+    	}
     		
     				    	// ----------- Funcion para consultar avisos admin.
     	public function consultarAvisosTutor() {
@@ -176,7 +177,7 @@ class Temas{
         		$datos->consultarTemaForo();
         break;
         case 'ver-tema':
-        		$datos->consultarTema();
+        		$datos->consultarRespuestas();
         break;
     }
 }
