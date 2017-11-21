@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { padding: 3px; position: fixed; bottom: 0;}
+      form input { border:1px solid #999; padding: 10px; margin-right: .5%; width: 245px; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+      #boxmsj{width: 250px; overflow-y: scroll; height: 300px;}
+		  
+    </style>
+  </head>
+  <body>
+	 <div id="boxmsj">
+    <ul id="messages"></ul>
+    </div>
+    <form action="">
+      <input id="m" autocomplete="off" />
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://dsc.itmorelia.edu.mx/TADDI2/js/jquery.min.js"></script>
+    <script src="http://dsc.itmorelia.edu.mx/TADDI2/js/jquery.cookie.js"></script>
+    <script>
+    $(document).ready(function () {
+    var quien = $.cookie('quien');
+      var socket = io();
+      var i = 0;
+		checkUser(quien);   
+			  
+      
+      $('form').submit(function(e){
+      e.preventDefault();
+        if($('#m').val()!='') socket.emit('send message', $('#m').val());
+        $('#m').val('');
+      });
+      
+      socket.on('new message', function(data) {
+      	$('#messages').append($('<li>').html('<b>'+data.nick+":</b> "+data.msg));
+               });
+               
+      function checkUser(q) {
+			socket.emit('new user', q, function(data) {
+                       if(data) {
+								console.log('ingresa');
+                       } else {
+				console.log('error');
+                       		i++;
+                           checkUser(quien+i);
+                       }
+                   });   	
+      }         
+     });
+    </script>
+  </body>
+</html>
